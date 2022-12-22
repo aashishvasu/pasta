@@ -1,0 +1,1 @@
+venv\Scripts\pyinstaller.exe pasta.py -F --icon resources\abp.ico
