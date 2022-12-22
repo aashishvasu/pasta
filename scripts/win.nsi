@@ -1,7 +1,7 @@
 !include LogicLib.nsh
 
 # Installer name
-OutFile "pasta_installer.exe"
+OutFile "pasta_installer_win.exe"
 
 RequestExecutionLevel admin
 ShowInstDetails show
