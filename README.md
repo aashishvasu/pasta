@@ -1,4 +1,4 @@
-Welcome to `**pasta**`, the stupidly simple point to point file transfer tool written in python!
+Welcome to **`pasta`**, the stupidly simple point to point file transfer tool written in python!
 
 ## Introduction
 
