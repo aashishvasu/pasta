@@ -48,5 +48,5 @@ Using `zeroconf` (and socket programming in general) is pretty new to me, so you
 ### Contributing
 Obviously as I mentioned above, there are improvements to be made all over the codebase. Any help would be appreciated! Open a PR and I can review it. A couple of things next on my todo list are:
 
-[ ] Build and installer script for linux
-[ ] Streamlining zeroconf from the listener side (in [sender.py](/src/sender.py))
+- [ ] Build and installer script for linux
+- [ ] Streamlining zeroconf from the listener side (in [sender.py](/src/sender.py))
