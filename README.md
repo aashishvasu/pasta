@@ -1,5 +1,7 @@
 Welcome to **`pasta`**, the stupidly simple point to point file transfer tool written in python!
 
+https://user-images.githubusercontent.com/6966900/209568239-9e18d37e-c96f-4f3b-9789-87367cd05c8b.mp4
+
 ## Introduction
 
 Here are some highlights of what pasta has to offer:
