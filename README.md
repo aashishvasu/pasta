@@ -45,6 +45,7 @@ pasta recieve obstiante-happy-red-gorilla
 
 ### Author Notes
 Using `zeroconf` (and socket programming in general) is pretty new to me, so you should not use this as an example of good python hygiene. In the words of the great Todd Howard:
+
 ![It just works](/docs/img/th.jpg)
 
 ### Contributing
