@@ -14,6 +14,9 @@ def get_local_ip():
 	finally:
 		s.close()
 
+def get_ip_str(ip) -> str:
+	return socket.inet_ntoa(ip)
+
 def send_file(file_path: str, conn: socket.socket):
 
 	# Open the file in binary mode
@@ -38,3 +41,22 @@ def send_file(file_path: str, conn: socket.socket):
 
 			# Update the progress bar
 			bar.next(len(bytes_read))
+
+def receive_file(file_path: str, filesize:int, conn: socket.socket):
+	# Open the file in binary mode
+	with open(file_path, 'wb') as f:
+		bar = ChargingBar("receiving", max=filesize)
+		bytes_received = 0
+
+		while bytes_received < filesize:
+			# Receive up to 1024 bytes from the socket
+			data = conn.recv(min(1024, filesize - bytes_received))
+			if not data:
+				break
+			f.write(data)
+
+			# Update the progress bar
+			bytes_received += len(data)
+			bar.next(len(data))
+
+		bar.finish()

@@ -5,7 +5,7 @@ import socket
 from zeroconf import ServiceInfo, Zeroconf
 
 from src.code_generator import generate_code, generate_port
-from src.utils import get_local_ip, send_file
+from src.utils import get_local_ip, send_file, receive_file
 from src.service_discovery import discover_service
 
 app = typer.Typer(help="Pasta, a peer-to-peer command line file transfer tool.")
@@ -41,7 +41,7 @@ def send(file_path: str):
 		f"{code}._pasta._tcp.local.",
 		addresses=[socket.inet_aton(get_local_ip())],
 		port=port,
-		properties={'isFolder': 'true' if isFolder else 'false'},
+		properties={'isFolder': 'true' if isFolder else 'false', 'filename':os.path.basename(file_path), 'filesize':os.path.getsize(file_path)},
 		server=f"{socket.gethostname()}.local.",
     )
 
@@ -64,7 +64,7 @@ def send(file_path: str):
 			zeroconf.unregister_service(info)
 			return
 		with conn:
-			typer.echo('Connected by', addr)
+			#typer.echo('Connected by', f'{addr[0]}:{addr[1]}')
 			send_file(file_path, s)
 
 	# Unregister the service
@@ -80,19 +80,18 @@ def receive(code: str, output_path: str = typer.Option('.', '--output', '-o', he
 		output_path (str, optional): The path where the received file will be saved. Defaults to the current directory.
 	"""
 
-	isFolder:bool = False
-
 	# Check if the output path is a valid directory
 	if not os.path.isdir(output_path):
 		typer.echo(f"Error: The output path {output_path} is not a valid directory.")
 		raise typer.Exit(code=1)
 	
-	services = discover_service("_pasta._tcp.local.")
-	for service in services:
-		if service.name == code:
-			typer.echo(service)
-			# Connect to the service and initiate the file transfer...
-			break
+	ip,isFolder,filename, filesize = discover_service("_pasta._tcp.local.", code)
+
+	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+		s.connect((ip, generate_port(code)))
+
+		# Receive the file or folder
+		receive_file(os.path.join(output_path, filename), filesize, s)
 
 if __name__ == "__main__":
 	app()
