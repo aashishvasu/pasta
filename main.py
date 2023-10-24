@@ -64,13 +64,13 @@ def send(file_path: str):
 			return
 		with conn:
 			typer.echo('Connected by', addr)
-			# TODO: Send the file or folder over the connection
+			send_file(file_path, s)
 
 	# Unregister the service
 	zeroconf.unregister_service(info)
 
 @app.command()
-def receive(code: str, output_path: str = typer.Option('.', help="The path where the received file will be saved.")):
+def receive(code: str, output_path: str = typer.Option('.', '--output', '-o', help="The path where the received file will be saved.")):
 	"""
 	Receive a file or folder.
 	
@@ -78,7 +78,13 @@ def receive(code: str, output_path: str = typer.Option('.', help="The path where
 		code (str): The unique code to connect to the sender.
 		output_path (str, optional): The path where the received file will be saved. Defaults to the current directory.
 	"""
-	pass
+
+	isFolder:bool = False
+
+	# Check if the output path is a valid directory
+	if not os.path.isdir(output_path):
+		typer.echo(f"Error: The output path {output_path} is not a valid directory.")
+		raise typer.Exit(code=1)
 
 if __name__ == "__main__":
 	app()

@@ -4,12 +4,6 @@ import socket
 from progress.bar import ChargingBar
 
 def get_local_ip():
-	"""
-	Get the local IP address of the machine.
-
-	Returns:
-		str: The local IP address.
-	"""
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	try:
 		# doesn't have to be reachable
