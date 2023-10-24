@@ -6,6 +6,7 @@ from zeroconf import ServiceInfo, Zeroconf
 
 from src.code_generator import generate_code, generate_port
 from src.utils import get_local_ip, send_file
+from src.service_discovery import discover_service
 
 app = typer.Typer(help="Pasta, a peer-to-peer command line file transfer tool.")
 
@@ -85,6 +86,13 @@ def receive(code: str, output_path: str = typer.Option('.', '--output', '-o', he
 	if not os.path.isdir(output_path):
 		typer.echo(f"Error: The output path {output_path} is not a valid directory.")
 		raise typer.Exit(code=1)
+	
+	services = discover_service("_pasta._tcp.local.")
+	for service in services:
+		if service.name == code:
+			typer.echo(service)
+			# Connect to the service and initiate the file transfer...
+			break
 
 if __name__ == "__main__":
 	app()
