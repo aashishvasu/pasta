@@ -38,6 +38,7 @@ def send_file(file_path: str, conn: socket.socket):
 			bytes_read = f.read(1024)
 			if not bytes_read:
 				# File sending is done
+				bar.finish()
 				break
 			conn.sendall(bytes_read)
 
